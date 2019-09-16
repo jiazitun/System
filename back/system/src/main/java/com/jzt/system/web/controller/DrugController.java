@@ -36,4 +36,10 @@ public class DrugController {
         return MessageUtils.success("删除成功");
     }
 
+    @GetMapping("findById")
+    private  Message findBuId(Long id){
+        drugService.findById(id);
+        return  MessageUtils.success("操作成功");
+    }
+
 }

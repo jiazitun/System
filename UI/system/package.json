@@ -34,6 +34,9 @@
       "last 1 safari version"
     ]
   },
+  "devDependencies": {
+    "react-router-dom": "^5.0.0"
+  },
   "main": "index.js",
   "author": "JZT <1983260204@qq.com>",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
