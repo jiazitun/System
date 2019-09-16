@@ -37,7 +37,7 @@ public class DrugController {
     }
 
     @GetMapping("findById")
-    private  Message findBuId(Long id){
+    private  Message findById(Long id){
         drugService.findById(id);
         return  MessageUtils.success("操作成功");
     }
