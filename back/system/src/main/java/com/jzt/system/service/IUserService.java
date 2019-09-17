@@ -12,5 +12,5 @@ public interface IUserService {
     void deleteById(Long id);
 
 
-
+    User findById(Long id);
 }

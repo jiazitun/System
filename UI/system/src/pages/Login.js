@@ -1,25 +1,58 @@
 import React from "react";
 import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
 import '../css/Login.css';
-const FormItem = Form.Item;
+import { Redirect } from "react-router-dom";
+//const FormItem = Form.Item;
 class FormLogin extends React.Component{
  
-    handleSubmit = ()=>{//提交函数，在此函数中你可以通过getFieldsValue方法拿到表单数据
-        let userInfo = this.props.form.getFieldsValue();
-        this.props.form.validateFields((err,values)=>{
-            if(!err){
-                message.success(`${userInfo.userName}欢迎您 ，当前密码为：${userInfo.userPwd}`)
-            }
-        })
+    // handleSubmit = ()=>{//提交函数，在此函数中你可以通过getFieldsValue方法拿到表单数据
+    //     let userInfo = this.props.form.getFieldsValue();
+    //     this.props.form.validateFields((err,values)=>{
+    //         if(!err){
+    //             message.success(`${userInfo.userName}欢迎您 ，当前密码为：${userInfo.userPwd}`)
+    //         }
+    //     })
+    // }
+    constructor(props){
+        super(props);
+        this.state={
+            login:false
+        }
     }
+    
+        doLogin=()=>{
+            let username=document.querySelector("input[type=text]").value;
+            let password=document.querySelector("input[type=password]").value;
+            if(username==="admin"&&password==="123456"){
+                this.setState({
+                    login :true
+                })
+            }
+        }
  
     render(){
-        const { getFieldDecorator } = this.props.form;//es6语法解构赋值，getFieldDecorator 此方法可以帮助你获取表单数据，初始化表单数据，校验表单数据，具体用法如下代码所示
+        if(this.state.login){
+            return  <Redirect to="/home"/>
+         }else{
+             alert("登录失败");
+         }
+        // const { getFieldDecorator } = this.props.form;//es6语法解构赋值，getFieldDecorator 此方法可以帮助你获取表单数据，初始化表单数据，校验表单数据，具体用法如下代码所示
         return (
              
             <div class="formDiv">
                 <h1>医药管理系统</h1>
-                    <Form>
+                <div>
+
+                <form onSubmit={this.doLogin}>
+                    账号：<input type="text"/><br/>
+                    密码：<input type="password"/><br/>
+                    <input type="submit" value="登录"/>
+                </form>
+
+                </div>
+
+
+                    {/* <Form>
                         <FormItem>
                             {
                                 getFieldDecorator('userName',{//userName实际上就是你获取整个表单数据对象之后，此输入框的名字
@@ -67,7 +100,7 @@ class FormLogin extends React.Component{
                         <FormItem>
                             <Button type="primary" onClick={this.handleSubmit}>登录</Button>
                         </FormItem>
-                    </Form>
+                    </Form> */}
                     <div class="under">
                       <div class="div1">
                         <div class="div2">

@@ -20,9 +20,9 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("findAll")
-    private List<User> findAll(){
+    private Message findAll(){
         List<User> list = userService.findAll();
-        return list;
+        return MessageUtils.success(list);
     }
 
     @PostMapping("saveOrUpdate")
@@ -35,6 +35,11 @@ public class UserController {
     private Message deleteById(Long id){
         userService.deleteById(id);
         return MessageUtils.success("删除成功");
+    }
+    @GetMapping("findById")
+    private Message findById(Long id){
+        User user=userService.findById(id);
+        return MessageUtils.success(user);
     }
 
 }

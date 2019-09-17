@@ -41,9 +41,8 @@
 
     <!-- 映射配置 -->
 <!--    <table tableName="drug" domainObjectName="Drug" ></table>-->
-<!--    <table tableName="category" domainObjectName="Category" ></table>-->
+<!--    <table tableName="drug_Warehouse" domainObjectName="Drug_Warehouse" ></table>-->
 <!--    <table tableName="user" domainObjectName="User" ></table>-->
-<!--    <table tableName="warehouse" domainObjectName="Warehouse" ></table>-->
 
     <!--
      mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate

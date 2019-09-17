@@ -36,6 +36,11 @@ public class UserServiceImpl implements IUserService {
         userMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public User findById(Long id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
+
 
 }
 

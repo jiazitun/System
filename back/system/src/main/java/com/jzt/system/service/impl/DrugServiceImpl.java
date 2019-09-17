@@ -4,6 +4,7 @@ import com.jzt.system.bean.Drug;
 import com.jzt.system.bean.DrugExample;
 import com.jzt.system.mapper.DrugMapper;
 import com.jzt.system.service.IDrugService;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,4 +37,5 @@ public class DrugServiceImpl implements IDrugService {
     public void deleteById(long id) {
         drugMapper.deleteByPrimaryKey(id);
     }
+
 }
