@@ -33,10 +33,8 @@ class User extends React.Component{
     if(status===200){
        
         //将查询数据库设置到state中
-            this.setState({
-            
-            users:data
-          
+            this.setState({      
+            users:data  
         })
         console.log(this.state.users);
         console.log(data);
