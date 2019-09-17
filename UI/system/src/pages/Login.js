@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
+import '../css/Login.css';
 const FormItem = Form.Item;
 class FormLogin extends React.Component{
  
@@ -15,8 +16,10 @@ class FormLogin extends React.Component{
     render(){
         const { getFieldDecorator } = this.props.form;//es6语法解构赋值，getFieldDecorator 此方法可以帮助你获取表单数据，初始化表单数据，校验表单数据，具体用法如下代码所示
         return (
-            <div>
-                    <Form style={{width:300}}>
+             
+            <div class="formDiv">
+                <h1>医药管理系统</h1>
+                    <Form>
                         <FormItem>
                             {
                                 getFieldDecorator('userName',{//userName实际上就是你获取整个表单数据对象之后，此输入框的名字
@@ -27,7 +30,7 @@ class FormLogin extends React.Component{
                                             message:'用户名不能为空'
                                         },
                                         {
-                                            min:5,max:10,
+                                            min:1,max:255,
                                             message:'长度不在范围内'
                                         },
                                         {
@@ -65,7 +68,28 @@ class FormLogin extends React.Component{
                             <Button type="primary" onClick={this.handleSubmit}>登录</Button>
                         </FormItem>
                     </Form>
+                    <div class="under">
+                      <div class="div1">
+                        <div class="div2">
+                          <p>给我一份信任</p >
+                          <p>还您一身健康</p >
+                          <p>细致入微</p >
+                          <p>关注每位患者的一点一滴</p >
+                          <p>用技术治疗患者病</p >
+                          <p>用温情治疗患者痛</p >
+                          <p>多一点理解</p >
+                          <p>多一点沟通</p >
+                          <p>改善服务态度</p >
+                          <p>提高服务质量</p >
+                          <p>优化服务流程</p >
+                          <p>创新服务模式</p >
+                          <p>努力使患者放心满意</p >
+                          <p>全心全意为患者服务</p >   
+                        </div>
+                      </div>
+                    </div>
             </div>
+            
         );
     }
 }
