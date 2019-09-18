@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
-import '../css/Login.css';
+import '../css/style.css';
 import { Redirect } from "react-router-dom";
 //const FormItem = Form.Item;
 class FormLogin extends React.Component{

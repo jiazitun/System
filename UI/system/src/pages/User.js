@@ -23,21 +23,21 @@ class User extends React.Component{
     componentDidMount(){
         //加载用户信息
         this.loadUsers();
-        console.log(this.state.users);
+        //console.log(this.state.users);
     }
     
     loadUsers(){
     //查询所有用户信息
     $.get("http://127.0.0.1:8888/user/findAll",({status,message,data})=>{
-        console.log(data);
+        //console.log(data);
     if(status===200){
        
         //将查询数据库设置到state中
             this.setState({      
             users:data  
         })
-        console.log(this.state.users);
-        console.log(data);
+        //console.log(this.state.users);
+        //console.log(data);
         }else{
             alert(message)
         }
@@ -64,11 +64,12 @@ class User extends React.Component{
         //1,通过id查找用户
         //2，将返回结果设置到this.state.form中
         //state->form
-        $.get("http://127.0.0.1:8888/user/findById?id="+id,({status,message,date})=>{
+        flag:!this.state.flag,
+        $.get("http://127.0.0.1:8888/user/findById?id="+id,({status,message,data})=>{
             if(status===200){
                 //将查询数据库设置到state中
                 this.setState({
-                    "form":date
+                    "form":data
                 })
             }else{
                 alert(message)
@@ -91,7 +92,7 @@ class User extends React.Component{
          //1,通过id查找用户
         //2，将返回结果设置到this.state.form中
         //state->form
-        $.get("http://127.0.0.1:8888/user/deleteById?id="+id,({status,message,date})=>{
+        $.get("http://127.0.0.1:8888/user/deleteById?id="+id,({status,message,data})=>{
             alert(message)
             //刷新页面
             this.loadUsers();
@@ -124,12 +125,12 @@ class User extends React.Component{
                 <h2>用户管理</h2>
                 <button onClick={this.toAdd} class="btn btn-primary">添加</button>
                 {/* 表单 */}
-                {JSON.stringify(form)}
+                {/* {JSON.stringify(form)} */}
                 {$form}
             <table class="table">
                 <thead>
                     <tr>
-                    <th>编号</th>
+                    {/* <th>编号</th> */}
                     <th>姓名</th>
                     <th>性别</th>
                     <th>密码</th>
@@ -144,7 +145,7 @@ class User extends React.Component{
                     users.map((item)=>{
                     return (
                     <tr key={item.id}>
-                        <td><input type='checkbox' value={item.id}/></td>
+                        {/* <td><input type='checkbox' value={item.id}/></td> */}
 
                         <td>{item.name}</td>
                         <td>{item.sex}</td>

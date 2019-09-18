@@ -22,7 +22,8 @@
 	border: 1px solid #ededed;
 	text-align: center;
 	padding: .3em 0;
+	
 }
 span{
-	cursor: pointer;
+	cursor: pointer !important;
 }
