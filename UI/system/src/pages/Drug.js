@@ -1,40 +1,44 @@
 import React from 'react';
 import $ from 'jquery';
 import '../css/style.css';
+import { Button } from 'antd';
 
 class Drug extends React.Component{
-  
+    
     constructor(){
         super();
         //局部状态
         this.state={
             flag:false,
-            users:[],
+            drugs:[],
             form:{
                 name:"",
-                sex:"",
-                password:"",
-                type:"",
-                status:""
+                norms:"",
+                price:"",
+                firm:"",
+                category:""
             }
         }
     }
 
     componentDidMount(){
         //加载用户信息
-        this.loadUsers();
-        console.log(this.state.users);
+        this.loadDrugs();
+        //console.log(this.state.drugs);
     }
     
-    loadUsers(){
+    loadDrugs(){
     //查询所有用户信息
-    $.get("http://127.0.0.1:8888/user/findAll",({status,message,data})=>{
-        console.log(data);
+    $.get("http://127.0.0.1:8888/drug/findAll",({status,message,data})=>{
+        //console.log(data);
     if(status===200){
+       
         //将查询数据库设置到state中
-            this.setState({
-            "users":data
+            this.setState({      
+            drugs:data  
         })
+        console.log(this.state.drugs);
+        console.log(data);
         }else{
             alert(message)
         }
@@ -49,11 +53,11 @@ class Drug extends React.Component{
     })
     }  
     submitHandler=(event)=>{
-        let url="http://127.0.0.1:8888/user/saveOrUpdate";
+        let url="http://127.0.0.1:8888/drug/saveOrUpdate";
         $.post(url,this.state.form,({message})=>{
             alert(message)
             //刷新页面
-            this.loadUsers();
+            this.loadDrugs();
         })
         event.preventDefault();
     }
@@ -61,11 +65,13 @@ class Drug extends React.Component{
         //1,通过id查找用户
         //2，将返回结果设置到this.state.form中
         //state->form
-        $.get("http://127.0.0.1:8888/user/findById?id="+id,({status,message,date})=>{
+        // flag:!this.state.flag,
+        $.get("http://127.0.0.1:8888/drug/findById?id="+id,({status,message,data})=>{
             if(status===200){
                 //将查询数据库设置到state中
                 this.setState({
-                    "form":date
+                    flag:!this.state.flag,
+                    "form":data
                 })
             }else{
                 alert(message)
@@ -77,10 +83,10 @@ class Drug extends React.Component{
             flag:!this.state.flag,
             form:{
                 name:"",
-                sex:"",
-                password:"",
-                type:"",
-                status:""
+                norms:"",
+                price:"",
+                firm:"",
+                category:""
             }
         })
     }
@@ -88,66 +94,67 @@ class Drug extends React.Component{
          //1,通过id查找用户
         //2，将返回结果设置到this.state.form中
         //state->form
-        $.get("http://127.0.0.1:8888/user/deleteById?id="+id,({status,message,date})=>{
+        $.get("http://127.0.0.1:8888/drug/deleteById?id="+id,({status,message,data})=>{
             alert(message)
             //刷新页面
-            this.loadUsers();
+            this.loadDrugs();
         })
     }
     render(){
-        let {users,form,flag}=this.state;
-        //let users = this.state;
+        let {drugs,form,flag}=this.state;
+        //let drugs = this.state;
         let $form;
         if(flag){
             $form=(
                 <form onSubmit={this.submitHandler}>
-                姓名
-                <input type="text" name="name" value={form.name} onChange={this.changeHandler}/>
-                性别
-                <input type="text" name="sex" value={form.sex} onChange={this.changeHandler}/>
-                密码
-                <input type="text" name="password" value={form.password} onChange={this.changeHandler}/>
-                类型
-                <input type="text" name="type" value={form.type} onChange={this.changeHandler}/>
-                状态
-                <input type="text" name="status" value={form.status} onChange={this.changeHandler}/>
-                <input type="submit" value="提交"/>
+				名称
+                <input firm="text" name="name" value={form.name} onChange={this.changeHandler}/>
+                剂量
+                <input firm="text" name="norms" value={form.norms} onChange={this.changeHandler}/>
+                价格
+                <input firm="text" name="price" value={form.price} onChange={this.changeHandler}/>
+                厂家
+                <input firm="text" name="firm" value={form.firm} onChange={this.changeHandler}/>
+                种类
+                <input firm="text" name="category" value={form.category} onChange={this.changeHandler}/>
+                
+                {/* <input firm="submit" value="提交" content="提交"/> */}
+                <button firm="submit" value="提交">提交</button>
                 </form>
             )
         }
 
         return(
             <div>
-                <h2>用户管理</h2>
+                <h2>药品管理</h2>
                 <button onClick={this.toAdd} class="btn btn-primary">添加</button>
                 {/* 表单 */}
-                {JSON.stringify(form)}
+                {/* {JSON.stringify(form)} */}
                 {$form}
             <table class="table">
                 <thead>
                     <tr>
-                    <th>编号</th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>密码</th>
-                    <th>类型</th>
-                    <th>状态</th>
+                    {/* <th>编号</th> */}
+                    <th>名称</th>
+                    <th>剂量</th>
+                    <th>价格</th>
+                    <th>厂家</th>
+                    <th>种类</th>
                     <th>操作</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {
-                    users.map((item)=>{
+                    drugs.map((item)=>{
                     return (
                     <tr key={item.id}>
-                        <td><input type='checkbox' value={item.id}/></td>
-
+                        {/* <td><input firm='checkbox' value={item.id}/></td> */}
                         <td>{item.name}</td>
-                        <td>{item.sex}</td>
-                        <td>{item.password}</td>
-                        <td>{item.type}</td>
-                        <td>{item.status}</td>
+                        <td>{item.norms}</td>
+                        <td>{item.price}</td>
+                        <td>{item.firm}</td>
+                        <td>{item.category}</td>
                         <td>
 
                         <span onClick={this.toDelete.bind(this,item.id)}>删除</span>

@@ -5,10 +5,7 @@ import com.jzt.system.service.IDrugService;
 import com.jzt.system.utils.Message;
 import com.jzt.system.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +16,9 @@ public class DrugController {
     private IDrugService drugService;
 
     @GetMapping("findAll")
-    private List<Drug> findAll(){
+    private Message findAll(){
         List<Drug> list = drugService.findAll();
-        return list;
+        return MessageUtils.success(list);
     }
 
     @PostMapping("saveOrUpdate")
@@ -37,9 +34,14 @@ public class DrugController {
     }
 
     @GetMapping("findById")
-    private  Message findById(Long id){
-        drugService.findById(id);
-        return  MessageUtils.success("操作成功");
+    private Message findById(Long id){
+        Drug drug=drugService.findById(id);
+        return MessageUtils.success(drug);
+    }
+    @PostMapping("batchDelete")
+    public Message batchDelete(@RequestBody long[] ids){
+        drugService.batchDelete(ids);
+        return MessageUtils.success("删除成功！");
     }
 
 }

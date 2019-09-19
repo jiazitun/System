@@ -11,6 +11,7 @@ class User extends React.Component{
             flag:false,
             users:[],
             form:{
+                username:"",
                 name:"",
                 sex:"",
                 password:"",
@@ -29,14 +30,14 @@ class User extends React.Component{
     loadUsers(){
     //查询所有用户信息
     $.get("http://127.0.0.1:8888/user/findAll",({status,message,data})=>{
-        //console.log(data);
+        console.log(data);
     if(status===200){
        
         //将查询数据库设置到state中
             this.setState({      
             users:data  
         })
-        //console.log(this.state.users);
+        console.log(this.state.users);
         //console.log(data);
         }else{
             alert(message)
@@ -64,11 +65,12 @@ class User extends React.Component{
         //1,通过id查找用户
         //2，将返回结果设置到this.state.form中
         //state->form
-        flag:!this.state.flag,
+        
         $.get("http://127.0.0.1:8888/user/findById?id="+id,({status,message,data})=>{
             if(status===200){
                 //将查询数据库设置到state中
                 this.setState({
+                    flag:!this.state.flag,
                     "form":data
                 })
             }else{
@@ -80,6 +82,7 @@ class User extends React.Component{
         this.setState({
             flag:!this.state.flag,
             form:{
+                username:"",
                 name:"",
                 sex:"",
                 password:"",
@@ -105,6 +108,8 @@ class User extends React.Component{
         if(flag){
             $form=(
                 <form onSubmit={this.submitHandler}>
+                用户名
+                <input type="text" name="username" value={form.username} onChange={this.changeHandler}/>
                 姓名
                 <input type="text" name="name" value={form.name} onChange={this.changeHandler}/>
                 性别
@@ -115,7 +120,8 @@ class User extends React.Component{
                 <input type="text" name="type" value={form.type} onChange={this.changeHandler}/>
                 状态
                 <input type="text" name="status" value={form.status} onChange={this.changeHandler}/>
-                <input type="submit" value="提交"/>
+                
+                <button firm="submit" value="提交">提交</button>
                 </form>
             )
         }
@@ -131,6 +137,7 @@ class User extends React.Component{
                 <thead>
                     <tr>
                     {/* <th>编号</th> */}
+                    <th>用户名</th>
                     <th>姓名</th>
                     <th>性别</th>
                     <th>密码</th>
@@ -146,7 +153,7 @@ class User extends React.Component{
                     return (
                     <tr key={item.id}>
                         {/* <td><input type='checkbox' value={item.id}/></td> */}
-
+                        <td>{item.username}</td>
                         <td>{item.name}</td>
                         <td>{item.sex}</td>
                         <td>{item.password}</td>

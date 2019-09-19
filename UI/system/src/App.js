@@ -16,8 +16,8 @@ function App() {
         </div>
         <div className="content">
           <Switch>
-            <Route path="/Drug" component={Drug}/>
             <Route path="/User" component={User}/>
+            <Route path="/Drug" component={Drug}/>
           </Switch>
         </div>
       </BrowserRouter>

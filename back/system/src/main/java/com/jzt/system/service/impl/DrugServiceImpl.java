@@ -38,4 +38,11 @@ public class DrugServiceImpl implements IDrugService {
         drugMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public void batchDelete(long[] ids) {
+        for(long id : ids){
+            drugMapper.deleteByPrimaryKey(id);
+        }
+    }
+
 }

@@ -4,11 +4,9 @@ import com.jzt.system.bean.User;
 import com.jzt.system.service.IUserService;
 import com.jzt.system.utils.Message;
 import com.jzt.system.utils.MessageUtils;
+import com.jzt.system.utils.PageVM;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
@@ -23,6 +21,12 @@ public class UserController {
     private Message findAll(){
         List<User> list = userService.findAll();
         return MessageUtils.success(list);
+    }
+
+    @GetMapping("pageQuery")
+    public Message pageQuery(int page,int pageSize){
+        PageVM<User> pageVM = userService.pageQuery(page,pageSize);
+        return MessageUtils.success(pageVM);
     }
 
     @PostMapping("saveOrUpdate")
@@ -41,5 +45,21 @@ public class UserController {
         User user=userService.findById(id);
         return MessageUtils.success(user);
     }
-
+    @PostMapping("login")
+    private Message login(@RequestParam("userName")String userName, @RequestParam("userPwd")String password){
+        int userPwd = Integer.parseInt(password);
+        User login = userService.login(userName, userPwd);
+        if(login != null) {
+            return MessageUtils.success("登陆成功",login);
+        }else {
+            return MessageUtils.success("登陆失败");
+        }
+    }
+    @PostMapping("batchDelete")
+    public Message batchDelete(@RequestBody long[] ids){
+        userService.batchDelete(ids);
+        return MessageUtils.success("删除成功！");
+    }
 }
+
+
