@@ -93,4 +93,6 @@ public interface Drug_WarehouseMapper {
      * @mbg.generated Tue Sep 17 17:33:38 CST 2019
      */
     int updateByPrimaryKey(Drug_Warehouse record);
+
+    void batchUpdate(long id);
 }

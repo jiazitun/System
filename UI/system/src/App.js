@@ -1,26 +1,24 @@
 import React from 'react';
-import './css/App.css';
-import User from './pages/User';
-import Drug from './pages/Drug';
-import {BrowserRouter,Route,Link,Switch} from 'react-router-dom'
+import logo from './logo.svg';
+import './App.css';
+
 function App() {
   return (
     <div className="App">
-        <BrowserRouter>
-        <div className="nav">
-        <h2 class="title">管理员界面</h2>
-          <ul>
-            <li><Link to="/User">用户管理</Link></li>
-            <li><Link to="/Drug">药品管理</Link></li>
-          </ul>
-        </div>
-        <div className="content">
-          <Switch>
-            <Route path="/User" component={User}/>
-            <Route path="/Drug" component={Drug}/>
-          </Switch>
-        </div>
-      </BrowserRouter>
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }

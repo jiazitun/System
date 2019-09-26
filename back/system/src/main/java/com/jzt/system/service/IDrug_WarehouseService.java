@@ -12,4 +12,7 @@ public interface IDrug_WarehouseService {
     Drug_Warehouse findById(long id);
     void saveOrUpdate(Drug_Warehouse drug_warehouse);
     void deleteById(long id);
+    void batchDelete(long[] ids);
+    void batchUpdate(long[] ids);
+
 }

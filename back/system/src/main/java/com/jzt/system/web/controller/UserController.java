@@ -46,9 +46,9 @@ public class UserController {
         return MessageUtils.success(user);
     }
     @PostMapping("login")
-    private Message login(@RequestParam("userName")String userName, @RequestParam("userPwd")String password){
-        int userPwd = Integer.parseInt(password);
-        User login = userService.login(userName, userPwd);
+    private Message login(@RequestParam("userName")String userName, @RequestParam("password")String password){
+        int passWord = Integer.parseInt(password);
+        User login = userService.login(userName, passWord);
         if(login != null) {
             return MessageUtils.success("登陆成功",login);
         }else {

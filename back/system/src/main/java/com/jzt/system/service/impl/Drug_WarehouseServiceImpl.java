@@ -41,5 +41,19 @@ public class Drug_WarehouseServiceImpl implements IDrug_WarehouseService {
         drug_warehouseMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public void batchDelete(long[] ids) {
+        for(long id : ids){
+            drug_warehouseMapper.deleteByPrimaryKey(id);
+        }
+    }
+    @Override
+    public void batchUpdate(long[] ids) {
+        for(long id : ids){
+            drug_warehouseMapper.batchUpdate(id);
+
+        }
+    }
+
 }
 

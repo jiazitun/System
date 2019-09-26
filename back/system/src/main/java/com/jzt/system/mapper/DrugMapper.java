@@ -93,4 +93,9 @@ public interface DrugMapper {
      * @mbg.generated Tue Sep 17 17:33:38 CST 2019
      */
     int updateByPrimaryKey(Drug record);
+
+
+    void inserts(List<Drug> list);
+
+    void updateById(Drug record);
 }

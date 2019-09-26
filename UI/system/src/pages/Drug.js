@@ -1,172 +1,255 @@
 import React from 'react';
 import $ from 'jquery';
-import '../css/style.css';
-import { Button } from 'antd';
+import '../App.css';
+import DrugForm from './DrugForm'
+import {
+  Button,
+  Table,
+  Icon,
+  Popconfirm,
+  Modal,
+  Pagination,
+  message
+} from 'antd'
+// ajax的全局配置
+$.ajaxSetup({
+  error:function(error){
+    message.error('服务器异常');
+  }
+})
 
 class Drug extends React.Component{
-    
-    constructor(){
-        super();
-        //局部状态
-        this.state={
-            flag:false,
-            drugs:[],
-            form:{
-                name:"",
-                norms:"",
-                price:"",
-                firm:"",
-                category:""
-            }
-        }
+  constructor(props){
+    super(props);
+    this.state = {
+      visible:false,
+      list:[],
+      ids:[],
+      drugs:{}
     }
-
+  }
     componentDidMount(){
         //加载用户信息
         this.loadDrugs();
-        //console.log(this.state.drugs);
+        //console.log(this.state.users);
     }
-    
     loadDrugs(){
     //查询所有用户信息
     $.get("http://127.0.0.1:8888/drug/findAll",({status,message,data})=>{
         //console.log(data);
     if(status===200){
-       
         //将查询数据库设置到state中
             this.setState({      
-            drugs:data  
+            list:data  
         })
-        console.log(this.state.drugs);
-        console.log(data);
         }else{
             alert(message)
         }
        });
    }
-
-   changeHandler=(event)=>{
-    let name=event.target.name;
-    let value=event.target.value;
+     // 显示模态框进行数据的添加
+  toAdd = ()=>{
+    this.setState({ 
+      visible: true, 
+      drugs:{}
+    });
+  }
+  //单个删除
+  delete(record){
+    let url = "http://localhost:8888/drug/deleteById?id="+record.id;
+    $.get(url,(result)=>{
+      if(result.status=== 200){
+        this.loadDrugs();
+        message.success(result.message)
+      } else {
+        message.error(result.message);
+      }
+    });
+  }
+  //显示模态框
+  toEdit(record){
+    console.log(record);
     this.setState({
-        form:{...this.state.form,...{[name]:value}}
+       visible: true, //  显示模态框   
+       drugs:record //  当前要修改的值
+
+    });
+  }
+  //批量出库
+  batchUpdate =()=>{
+    Modal.confirm({
+      title: '确定要出库这些药品吗?',
+      content: 'Some descriptions',
+      onOk:()=> {
+        console.log('OK');
+        let url = "http://localhost:8888/drug/batchUpdate";
+        $.ajax({
+          url,
+          method:'POST',
+          data:JSON.stringify(this.state.ids),
+          contentType:'application/json',
+          success:(result)=>{
+            message.success(result.message);
+            this.loadDrugs();
+          }
+        })
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+
+  //批量删除
+  batchDelete =()=>{
+    Modal.confirm({
+      title: '确定要删除这些用户吗?',
+      content: 'Some descriptions',
+      onOk:()=> {
+        console.log('OK');
+        let url = "http://localhost:8888/drug/batchDelete";
+        $.ajax({
+          url,
+          method:'POST',
+          data:JSON.stringify(this.state.ids),
+          contentType:'application/json',
+          success:(result)=>{
+            message.success(result.message);
+            this.loadDrugs();
+          }
+        })
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+}
+handleOk = e => {
+  // 提交表单
+  e.preventDefault();
+  this.state.form.validateFields((err, values) => {
+    if (!err) {
+      console.log('Received values of form: ', values);
+      let url = "http://localhost:8888/drug/saveOrUpdate"
+      $.post(url,values,(result)=>{
+        // 提示成功
+        message.success(result.message);
+        // 关闭模态框
+        this.setState({ visible: false, });
+        // 刷新数据
+        this.loadDrugs();
+      })
+    }
+  });
+};
+//表单取消
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  toDetails(record){
+    this.props.history.push({
+      pathname:'/Usedetils',
+      payload:record
+    });
+  }
+
+  //表单修改,ref是父组件触发子组件的事件
+  saveFormRef = (form) => {
+    console.log(form);
+    this.setState({
+      form
     })
-    }  
-    submitHandler=(event)=>{
-        let url="http://127.0.0.1:8888/drug/saveOrUpdate";
-        $.post(url,this.state.form,({message})=>{
-            alert(message)
-            //刷新页面
-            this.loadDrugs();
-        })
-        event.preventDefault();
-    }
-    toUpdate=(id)=>{
-        //1,通过id查找用户
-        //2，将返回结果设置到this.state.form中
-        //state->form
-        // flag:!this.state.flag,
-        $.get("http://127.0.0.1:8888/drug/findById?id="+id,({status,message,data})=>{
-            if(status===200){
-                //将查询数据库设置到state中
-                this.setState({
-                    flag:!this.state.flag,
-                    "form":data
-                })
-            }else{
-                alert(message)
-            }
-        })
-    }
-    toAdd=()=>{
-        this.setState({
-            flag:!this.state.flag,
-            form:{
-                name:"",
-                norms:"",
-                price:"",
-                firm:"",
-                category:""
-            }
-        })
-    }
-    toDelete=(id)=>{
-         //1,通过id查找用户
-        //2，将返回结果设置到this.state.form中
-        //state->form
-        $.get("http://127.0.0.1:8888/drug/deleteById?id="+id,({status,message,data})=>{
-            alert(message)
-            //刷新页面
-            this.loadDrugs();
-        })
-    }
-    render(){
-        let {drugs,form,flag}=this.state;
-        //let drugs = this.state;
-        let $form;
-        if(flag){
-            $form=(
-                <form onSubmit={this.submitHandler}>
-				名称
-                <input firm="text" name="name" value={form.name} onChange={this.changeHandler}/>
-                剂量
-                <input firm="text" name="norms" value={form.norms} onChange={this.changeHandler}/>
-                价格
-                <input firm="text" name="price" value={form.price} onChange={this.changeHandler}/>
-                厂家
-                <input firm="text" name="firm" value={form.firm} onChange={this.changeHandler}/>
-                种类
-                <input firm="text" name="category" value={form.category} onChange={this.changeHandler}/>
-                
-                {/* <input firm="submit" value="提交" content="提交"/> */}
-                <button firm="submit" value="提交">提交</button>
-                </form>
-            )
-        }
-
-        return(
+  }
+   render(){
+     //定义列
+    const columns = [
+      {
+        title: '名称',
+        dataIndex: 'name',
+      },
+      {
+        title: '剂量',
+        dataIndex: 'norms',
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+      },
+      {
+        title: '厂家',
+        dataIndex: 'firm',
+      },
+      {
+        title: '种类',
+        dataIndex: 'category',
+      },
+      {
+        title: '操作',
+        dataIndex: '',
+        render: (text,record) => {
+          return (
             <div>
-                <h2>药品管理</h2>
-                <button onClick={this.toAdd} class="btn btn-primary">添加</button>
-                {/* 表单 */}
-                {/* {JSON.stringify(form)} */}
-                {$form}
-            <table class="table">
-                <thead>
-                    <tr>
-                    {/* <th>编号</th> */}
-                    <th>名称</th>
-                    <th>剂量</th>
-                    <th>价格</th>
-                    <th>厂家</th>
-                    <th>种类</th>
-                    <th>操作</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {
-                    drugs.map((item)=>{
-                    return (
-                    <tr key={item.id}>
-                        {/* <td><input firm='checkbox' value={item.id}/></td> */}
-                        <td>{item.name}</td>
-                        <td>{item.norms}</td>
-                        <td>{item.price}</td>
-                        <td>{item.firm}</td>
-                        <td>{item.category}</td>
-                        <td>
-
-                        <span onClick={this.toDelete.bind(this,item.id)}>删除</span>
-                        <span onClick={this.toUpdate.bind(this,item.id)}>更新</span>
-                        </td>
-                    </tr>);
-                    })
-                    }
-                </tbody>
-        </table>
+              <Popconfirm title="确定删除药品？" onConfirm={this.delete.bind(this,record)} okText="是" cancelText="否">
+                <Button type="link" >
+                    <Icon type="delete" /></Button>
+              </Popconfirm>
+              <Button type="link" onClick={this.toEdit.bind(this,record)}>
+                    <Icon type="edit" /></Button>
             </div>
-        )
-    }
+          )
+        }
+        
+        
+      },
+    ];
+    //定义行
+    const rowSelection = {
+      onChange: (selectedRowKeys) => {
+        //每次改变的时候,参数值改变
+        this.setState({
+          ids:selectedRowKeys
+        })
+      },
+      getCheckboxProps: record => ({
+        disabled: record.name === 'Disabled User', // Column configuration not to be checked
+        name: record.name,
+      }),
+    };
+
+
+    return (
+      <div className="drug">
+        <h2>药品管理</h2>
+        <div className="btns">
+          <Button onClick={this.toAdd}>添加</Button> &nbsp;
+          <Button type="danger" onClick={this.batchUpdate}>批量删除</Button>
+          {/* onClick={this.batchDelete} */}
+        </div>
+        {/* {JSON.stringify(this.state.list)} */}
+         {/* 表格 */}
+         <Table 
+          size="small"
+          //选中行相当于选中id
+          rowKey="id" 
+          rowSelection={rowSelection} 
+          columns={columns} 
+          dataSource={this.state.list} />
+          {/* 模态框 */}
+        <Modal
+          title="新增或修改药品信息"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+        <DrugForm ref={this.saveFormRef} drugs={this.state.drugs} />
+        </Modal>
+      </div>
+    )
+
+   }
 }
 export default Drug;

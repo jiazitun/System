@@ -1,38 +1,12 @@
-html {
-    font: 14px/1.5 "Microsoft Yahei", "微软雅黑", "宋体", serif;
-    text-align: center;
-  }
-  h1{
-    font: 50px/1.5 "Microsoft Yahei", "微软雅黑", "宋体", serif;
-    color: #101010;
-    text-align: center;
-  }
-  body,
-  div {
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    padding: 0px;
-  }
-  
-  .under {
-    text-align: center;
-    /* position:fixed; 
-       left:0px; 
-       bottom:0px; 
-       width:100%; 
-      height: auto;
-       z-index:9999;*/
-  }
-.formDiv {
-    width: 300px;
-    margin-top: 100px;
-    text-align: center;
+.login {
+  width: 100%;
+  height: 100%;
 }
-/*最下面的滚动文字*/
-@keyframes anis {
-	100% {
-	transform:translateY(-300px)
+
+.headimg {
+  width: 100%;
 }
+
+.headimg>img {
+  width: 100%;
 }

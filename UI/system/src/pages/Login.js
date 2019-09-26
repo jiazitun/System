@@ -1,107 +1,101 @@
-import React from "react";
-import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
-import '../css/style.css';
-import { Redirect } from "react-router-dom";
-//const FormItem = Form.Item;
-class FormLogin extends React.Component{
- 
-    // handleSubmit = ()=>{//提交函数，在此函数中你可以通过getFieldsValue方法拿到表单数据
-    //     let userInfo = this.props.form.getFieldsValue();
-    //     this.props.form.validateFields((err,values)=>{
-    //         if(!err){
-    //             message.success(`${userInfo.userName}欢迎您 ，当前密码为：${userInfo.userPwd}`)
-    //         }
-    //     })
-    // }
-    constructor(props){
-        super(props);
-        this.state={
-            login:false
-        }
-    }
-    
-        doLogin=()=>{
-            let username=document.querySelector("input[type=text]").value;
-            let password=document.querySelector("input[type=password]").value;
-            if(username==="admin"&&password==="123456"){
-                this.setState({
-                    login :true
-                })
+import React from 'react'
+import {Form,Input,Icon, Button} from 'antd'
+// import {render} from 'react-dom'
+import axios from 'axios'
+import '../css/login.css'
+// import Img from "../img/headimg.jpg"
+
+class LoginFrom extends React.Component{
+  constructor(){
+      super();
+  }
+
+  handleSubmit = (e) => {
+    //提交之前判断输入的字段是否有错误
+    e.preventDefault();
+    let history = this.props.history;
+    this.props.form.validateFields((errors,values)=>{
+      if (!errors) {
+        axios({
+          url: "http://127.0.0.1:8888/user/login",
+          method: "post",
+          params: {
+            userName: values.userName,
+            password: values.passWord
+          }
+        })
+        .then(function(response) {
+          console.log(response)
+          if(null == response.data.data){
+            console.log(response.data.message)
+          }else{
+            if(response.data.data.type == '管理员'){
+              history.push('/Admin');
+             }else if(response.data.data.type == '医师'){
+              history.push('/Doctor');
+             }else{
+              history.push('/Pharmacist');
+             }
+          }
+          })
+          
+        console.log('Received values of form: ', values);
+      }
+    })
+  }
+
+  render(){
+    //Form.create 包装的组件会自带this.props.form属性，该属性提供了一系列API，包括以下4个
+    //getFieldDecorator用于和表单进行双向绑定
+    //isFieldTouched判断一个输入控件是否经历过 getFieldDecorator 的值收集时机 options.trigger(收集子节点的值的时机，默认时onChange)
+    //getFieldError获取某个输入控件的 Error
+    //获取一组输入控件的 Error ，如不传入参数，则获取全部组件的 Error
+    const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
+    const userNameError = isFieldTouched('userName') && getFieldError('userName');
+    const passWordError = isFieldTouched('password') && getFieldError('password');
+    return (
+      <div className="login">
+        {/* <div className="headimg">
+          <img src={Img} alt="图片找不到了"/>
+        </div> */}
+        <div className="login-form">
+          <div className="login-logo">
+            <div className="login-name"></div>
+          </div>
+          <Form onSubmit={this.handleSubmit}>
+            {/* 一个FromItem中放一个被 getFieldDecorator 装饰过的 child */}
+            <Form.Item
+              validateStatus={userNameError ? 'error' : ''}//validateStatus为校验状态，如不设置，则会根据校验规则自动生成，可选：'success' 'warning' 'error' 'validating'
+            >
+            {
+              getFieldDecorator('userName',{
+                rules:[{required:true,message:"Please input your username!"}]
+              })(
+                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>} placeholder="Username"/>
+              )
             }
-        }
- 
-    render(){
-        if(this.state.login){
-            return  <Redirect to="/home"/>
-         }else{
-             alert("登录失败");
-         }
-        // const { getFieldDecorator } = this.props.form;//es6语法解构赋值，getFieldDecorator 此方法可以帮助你获取表单数据，初始化表单数据，校验表单数据，具体用法如下代码所示
-        return (
-             
-            <div class="formDiv">
-                <h1>医药管理系统</h1>
-                <div>
-
-                <form onSubmit={this.doLogin}>
-                    账号：<input type="text"/><br/>
-                    密码：<input type="password"/><br/>
-                    <input type="submit" value="登录"/>
-                </form>
-
-                </div>
-
-
-                    {/* <Form>
-                        <FormItem>
-                            {
-                                getFieldDecorator('userName',{//userName实际上就是你获取整个表单数据对象之后，此输入框的名字
-                                    initialValue:'',//这是用来初始化表单数据的
-                                    rules:[//这是用来校验表单数据的，具体用法请看文档
-                                        {
-                                            required:true,
-                                            message:'用户名不能为空'
-                                        },
-                                        {
-                                            min:1,max:255,
-                                            message:'长度不在范围内'
-                                        },
-                                        {
-                                            pattern:new RegExp('^\\w+$','g'),
-                                            message:'用户名必须为字母或者数字'
-                                        }
-                                    ]
-                                })(
-                                    <Input prefix={<Icon type="user"/>} placeholder="请输入用户名" />
-                                )
-                            }
-                        </FormItem>
-                        <FormItem>
-                            {
-                                getFieldDecorator('userPwd', {
-                                    initialValue: '',
-                                    rules: []
-                                })(
-                                    <Input prefix={<Icon type="lock" />} type="password" placeholder="请输入密码" />
-                                )
-                            }
-                        </FormItem>
-                        <FormItem>
-                            {
-                                getFieldDecorator('remember', {
-                                    valuePropName:'checked',
-                                    initialValue: true
-                                })(
-                                    <Checkbox>记住密码</Checkbox>
-                                )
-                            }
-                            <a href="#" style={{float:'right'}}>忘记密码</a>
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" onClick={this.handleSubmit}>登录</Button>
-                        </FormItem>
-                    </Form> */}
-                    <div class="under">
+            </Form.Item>
+            <Form.Item
+              validateStatus={passWordError ? "error" : ''}
+            >
+            {
+              getFieldDecorator('passWord',{
+                rules:[{required:true,message:"Please input your Password!"}]
+              })(
+                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>} placeholder="Password"/>
+              )
+            }
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+              >登录
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+        <div class="under">
                       <div class="div1">
                         <div class="div2">
                           <p>给我一份信任</p >
@@ -121,9 +115,9 @@ class FormLogin extends React.Component{
                         </div>
                       </div>
                     </div>
-            </div>
-            
-        );
-    }
+      </div>
+    )
+  }
 }
-export default Form.create()(FormLogin);
+let LoginForm = Form.create()(LoginFrom);
+export default LoginForm;

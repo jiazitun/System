@@ -43,5 +43,51 @@ public class DrugController {
         drugService.batchDelete(ids);
         return MessageUtils.success("删除成功！");
     }
+    @PostMapping("batchUpdate")
+    public Message batchUpdate(@RequestBody long[] ids){
+        List<Drug> list = drugService.findByIds(ids);
+        drugService.inserts(list);
+        drugService.batchDelete(ids);
+        return MessageUtils.success("操作成功！");
+    }
+    @GetMapping("updateById")
+    private Message updateById(Long id){
+        drugService.updateById(drugService.findById(id));
+        drugService.deleteById(id);
+        return MessageUtils.success("操作成功");
+    }
+
+    @GetMapping("findJn")
+    private Message findJn(){
+        String category="胶囊";
+        List<Drug> list=drugService.findByCategory(category);
+        return MessageUtils.success(list);
+    }
+
+    @GetMapping("findWan")
+    private Message findWan(){
+        String category="丸";
+        List<Drug> list=drugService.findByCategory(category);
+        return MessageUtils.success(list);
+    }
+    @GetMapping("findTj")
+    private Message findTj(){
+        String category="糖浆";
+        List<Drug> list=drugService.findByCategory(category);
+        return MessageUtils.success(list);
+    }
+    @GetMapping("findKFY")
+    private Message findKFY(){
+        String category="口服液";
+        List<Drug> list=drugService.findByCategory(category);
+        return MessageUtils.success(list);
+    }
+    @GetMapping("findPian")
+    private Message findPian(){
+        String category="片";
+        List<Drug> list=drugService.findByCategory(category);
+        return MessageUtils.success(list);
+    }
+
 
 }
