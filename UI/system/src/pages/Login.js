@@ -2,7 +2,7 @@ import React from 'react'
 import {Form,Input,Icon, Button} from 'antd'
 // import {render} from 'react-dom'
 import axios from 'axios'
-import '../css/login.css'
+import '../css/Login.css'
 // import Img from "../img/headimg.jpg"
 
 class LoginFrom extends React.Component{
