@@ -2,6 +2,8 @@ package com.jzt.system;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @SpringBootApplication
 public class SystemApplication {
@@ -10,4 +12,6 @@ public class SystemApplication {
         SpringApplication.run(SystemApplication.class, args);
     }
 
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter (){return new ServerEndpointExporter();}
 }
