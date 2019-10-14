@@ -4,7 +4,6 @@ import com.jzt.system.bean.Drug;
 import com.jzt.system.bean.DrugExample;
 import com.jzt.system.mapper.DrugMapper;
 import com.jzt.system.service.IDrugService;
-
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -64,10 +63,19 @@ public class DrugServiceImpl implements IDrugService {
     }
 
     @Override
+    public void insertsOut(List<Drug> list) {
+        drugMapper.insertsOut(list);
+    }
+
+    @Override
+    public void updateByIdOut(Drug record) {
+        drugMapper.updateByIdOut(record);
+    }
+
+    @Override
     public List<Drug> findByCategory(String category) {
         DrugExample example=new DrugExample();
         example.createCriteria().andCategoryEqualTo(category);
         return drugMapper.selectByExample(example);
     }
-
 }

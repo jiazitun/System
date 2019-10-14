@@ -6764,3 +6764,5 @@ UI/system/node_modules/yargs/node_modules/string-width/license
 back/system/target/classes/com/jzt/system/web/controller/DrugController.class
 back/system/target/classes/com/jzt/system/web/controller/DrugController.class
 *.class
+back/system/.idea/workspace.xml
+back/system/.idea/workspace.xml

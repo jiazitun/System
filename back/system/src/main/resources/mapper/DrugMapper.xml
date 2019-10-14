@@ -324,4 +324,17 @@
     values
     (#{name},#{norms},#{price},#{firm},#{category})
   </insert>
+  <insert id="insertsOut" parameterType="com.jzt.system.bean.Drug">
+    insert into `sys`.`drug_Outwarehouse`(`name`, `norms`, `price`, `firm`, `category`)
+    values
+    <foreach item="item" separator="," collection="list" >
+      (#{item.name},#{item.norms},#{item.price},#{item.firm},#{item.category})
+    </foreach>
+  </insert>
+
+  <insert id="updateByIdOut" parameterType="com.jzt.system.bean.Drug">
+    insert into `sys`.`drug_Outwarehouse`(`name`, `norms`, `price`, `firm`, `category`)
+    values
+    (#{name},#{norms},#{price},#{firm},#{category})
+  </insert>
 </mapper>

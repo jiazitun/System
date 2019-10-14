@@ -21,5 +21,9 @@ public interface IDrugService {
 
     void updateById(Drug drug);
 
+    void insertsOut(List<Drug> list);
+
+    void updateByIdOut(Drug drug);
+
     List<Drug> findByCategory(String category);
 }

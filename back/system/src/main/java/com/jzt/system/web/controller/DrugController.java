@@ -56,7 +56,21 @@ public class DrugController {
         drugService.deleteById(id);
         return MessageUtils.success("操作成功");
     }
-
+    //放到配药表
+    @PostMapping("batchUpdateOut")
+    public Message batchUpdateOut(@RequestBody long[] ids){
+        List<Drug> list = drugService.findByIds(ids);
+        drugService.insertsOut(list);
+        drugService.batchDelete(ids);
+        return MessageUtils.success("操作成功！");
+    }
+    //放到配药表
+    @GetMapping("updateByIdOut")
+    private Message updateByIdOut(Long id){
+        drugService.updateByIdOut(drugService.findById(id));
+        drugService.deleteById(id);
+        return MessageUtils.success("操作成功");
+    }
     @GetMapping("findJn")
     private Message findJn(){
         String category="胶囊";

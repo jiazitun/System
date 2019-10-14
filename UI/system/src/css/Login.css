@@ -1,12 +1,49 @@
 .login {
-  width: 100%;
-  height: 100%;
-}
-
-.headimg {
-  width: 100%;
-}
-
-.headimg>img {
-  width: 100%;
-}
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: center;
+    overflow-y: hidden;
+  }
+  
+  .loginTitle {
+    width: 100%;
+    height: 14%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    background-color: aquamarine;
+  }
+  
+  .loginMiddle {
+    width: 100%;
+    height: calc(100% - 50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .under {
+    width: 100%;
+    height: 40%;
+  }
+  
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+  }
+  .loginbtn{
+    text-align: center;
+    width: 100%;
+  }

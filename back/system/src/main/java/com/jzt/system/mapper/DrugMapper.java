@@ -2,8 +2,9 @@ package com.jzt.system.mapper;
 
 import com.jzt.system.bean.Drug;
 import com.jzt.system.bean.DrugExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface DrugMapper {
     /**
@@ -98,4 +99,9 @@ public interface DrugMapper {
     void inserts(List<Drug> list);
 
     void updateById(Drug record);
+
+    void insertsOut(List<Drug> list);
+
+    void updateByIdOut(Drug record);
+
 }

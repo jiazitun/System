@@ -225,7 +225,8 @@ handleOk = e => {
       <div className="drug">
         <h2>药品管理</h2>
         <div className="btns">
-          <Button onClick={this.toAdd}>添加</Button> &nbsp;
+          <Button onClick={this.toAdd}>手动添加</Button> &nbsp;
+		  <Button onClick={this.toAdd}>RFID添加</Button> &nbsp;
           <Button type="danger" onClick={this.batchUpdate}>批量删除</Button>
           {/* onClick={this.batchDelete} */}
         </div>

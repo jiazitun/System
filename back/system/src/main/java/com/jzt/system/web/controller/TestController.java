@@ -15,8 +15,8 @@ import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
 @RestController
-@RequestMapping("/com")
-public class TestController {
+
+public class TestController implements SerialPortEventListener {
     @Autowired
     private IDrugService iDrugService;
 
@@ -63,7 +63,7 @@ public class TestController {
                         // open:（应用程序名【随意命名】，阻塞时等待的毫秒数）
                         serialPort = (SerialPort) commPortId.open(Object.class.getSimpleName(), 2000);
                         // 设置串口监听
-                        serialPort.addEventListener((SerialPortEventListener) this);
+                        serialPort.addEventListener(this);
                         // 设置串口数据时间有效(可监听)
                         serialPort.notifyOnDataAvailable(true);
                         // 设置串口通讯参数:波特率，数据位，停止位,校验方式
@@ -117,6 +117,10 @@ public class TestController {
         }
     }
 
+    /**
+     * 实现接口SerialPortEventListener中的方法 读取从串口中接收的数据
+     */
+    @Override
     public void serialEvent(SerialPortEvent event) {
 //        Rfid rfid=new Rfid();
         try {

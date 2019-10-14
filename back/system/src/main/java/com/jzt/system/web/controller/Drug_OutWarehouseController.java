@@ -41,11 +41,7 @@ public class Drug_OutWarehouseController {
         Drug_OutWarehouse drug_outWarehouse=drug_outWarehouseService.findById(id);
         return MessageUtils.success(drug_outWarehouse);
     }
-    @PostMapping("batchDelete")
-    public Message batchDelete(@RequestBody long[] ids){
-        drug_outWarehouseService.batchDelete(ids);
-        return MessageUtils.success("删除成功！");
-    }
+
     @PostMapping("batchUpdate")
     public Message batchUpdate(@RequestBody long[] ids){
         List<Drug_OutWarehouse> list = drug_outWarehouseService.findByIds(ids);
@@ -59,6 +55,4 @@ public class Drug_OutWarehouseController {
         drug_outWarehouseService.deleteById(id);
         return MessageUtils.success("操作成功");
     }
-
-
 }
