@@ -12,6 +12,33 @@ public class MyClass {
     private String price;
     private String firm;
     private String category;
+    private Long cardID;
+
+
+
+    public MyClass(String dataType, String tagId, String isRegister, String name, String norms, String price, String firm, String category, Long cardID) {
+        DataType = dataType;
+        this.tagId = tagId;
+        IsRegister = isRegister;
+        this.name = name;
+        this.norms = norms;
+        this.price = price;
+        this.firm = firm;
+        this.category = category;
+        this.cardID = cardID;
+    }
+
+    public Long getCardID() {
+        return cardID;
+    }
+
+    public void setCardID(Long cardID) {
+        this.cardID = cardID;
+    }
+
+
+    public MyClass() {
+    }
 
 
     public String getIsRegister() {

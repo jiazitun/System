@@ -44,6 +44,7 @@
 <!--    <table tableName="drug_OutWarehouse" domainObjectName="Drug_Warehouse" ></table>-->
 <!--    <table tableName="user" domainObjectName="User" ></table>-->
 <!--    <table tableName="drug_OutWarehouse" domainObjectName="Drug_OutWarehouse" ></table>-->
+<!--    <table tableName="drug_message" domainObjectName="Drug_Message" ></table>-->
 
     <!--
      mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate

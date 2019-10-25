@@ -18,11 +18,12 @@ ul {
 .App > .nav_left{
   width: 200px;
   background-color: 	#87CEEB;
-  color: #ffffff;
+  color: #87CEEB;
   text-align: center;
 }
 .App > .nav_left a {
   color: #ffffff;
+  
 }
 .App > .nav_left >.title {
   font-size: 18px;
@@ -30,12 +31,11 @@ ul {
   border-bottom: 1px solid #ededed;
 
 }
-.App > .nav_left> ul>li {
-  line-height: 2.5em;
-  border-bottom: 1px solid #ededed;
-}
 .App > .content_right {
   flex: 1;
   padding: 1em;
   overflow-y: auto;
+}
+.App >.titlehead{
+  background-color: #87CEEB;
 }

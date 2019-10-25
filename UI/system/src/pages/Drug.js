@@ -54,9 +54,23 @@ class Drug extends React.Component{
       drugs:{}
     });
   }
+  
   //单个删除
   delete(record){
     let url = "http://localhost:8888/drug/deleteById?id="+record.id;
+    $.get(url,(result)=>{
+      if(result.status=== 200){
+        this.loadDrugs();
+        message.success(result.message)
+      } else {
+        message.error(result.message);
+      }
+    });
+  }
+
+  //toRFID
+  toRFID= ()=>{
+    let url = "http://127.0.0.1:8888/card/openPort";
     $.get(url,(result)=>{
       if(result.status=== 200){
         this.loadDrugs();
@@ -79,7 +93,7 @@ class Drug extends React.Component{
   batchUpdate =()=>{
     Modal.confirm({
       title: '确定要出库这些药品吗?',
-      content: 'Some descriptions',
+     
       onOk:()=> {
         console.log('OK');
         let url = "http://localhost:8888/drug/batchUpdate";
@@ -95,9 +109,11 @@ class Drug extends React.Component{
         })
       },
       onCancel() {
-        console.log('Cancel');
+        this.loadDrugs();
+        }
       },
-    });
+      
+    );
   }
 
   //批量删除
@@ -142,6 +158,8 @@ handleOk = e => {
     }
   });
 };
+
+
 //表单取消
   handleCancel = e => {
     console.log(e);
@@ -154,6 +172,26 @@ handleOk = e => {
     this.props.history.push({
       pathname:'/Usedetils',
       payload:record
+    });
+  }
+  run = e =>{
+    e.preventDefault();
+    this.state.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        let url = "http://127.0.0.1:8888/Hello/Run"
+        $.post(url,values,(result)=>{
+          // 提示成功
+          if(!values){
+            $.post('',)
+          }
+          message.success(result.message);
+          // 关闭模态框
+          this.setState({ visible: false, });
+          // 刷新数据
+          this.loadDrugs();
+        })
+      }
     });
   }
 
@@ -226,7 +264,8 @@ handleOk = e => {
         <h2>药品管理</h2>
         <div className="btns">
           <Button onClick={this.toAdd}>手动添加</Button> &nbsp;
-		  <Button onClick={this.toAdd}>RFID添加</Button> &nbsp;
+          <Button onClick={this.toRFID}>RDID添加</Button> &nbsp;
+          
           <Button type="danger" onClick={this.batchUpdate}>批量删除</Button>
           {/* onClick={this.batchDelete} */}
         </div>
@@ -247,6 +286,7 @@ handleOk = e => {
           onCancel={this.handleCancel}
         >
         <DrugForm ref={this.saveFormRef} drugs={this.state.drugs} />
+        {/* <Button onClick={this.run}>自动添加</Button> */}
         </Modal>
       </div>
     )

@@ -43,6 +43,7 @@ public class DrugController {
         drugService.batchDelete(ids);
         return MessageUtils.success("删除成功！");
     }
+    //放到出库表
     @PostMapping("batchUpdate")
     public Message batchUpdate(@RequestBody long[] ids){
         List<Drug> list = drugService.findByIds(ids);
@@ -50,6 +51,7 @@ public class DrugController {
         drugService.batchDelete(ids);
         return MessageUtils.success("操作成功！");
     }
+    //放到出库表
     @GetMapping("updateById")
     private Message updateById(Long id){
         drugService.updateById(drugService.findById(id));
